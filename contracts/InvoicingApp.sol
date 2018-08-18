@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.18;
 
 import "@aragon/os/contracts/apps/AragonApp.sol";
 import {RequestEthereum} from "./requestNetwork/contracts/synchrone/RequestEthereum.sol";
@@ -14,17 +14,18 @@ contract InvoicingApp is AragonApp {
   }
 
   function createRequestAsPayee(
-		address[] 	_payeesIdAddress,
 		address[] 	_payeesPaymentAddress,
 		int256[] 	_expectedAmounts,
 		address 	_payer,
 		address 	_payerRefundAddress,
 		string 		_data)
-		external
+		public
 		payable
 		returns(bytes32)
 	{
-		bytes32 requestId = requestEthereum.createRequestAsPayee(
+		address[] memory _payeesIdAddress = new address[](1);
+    _payeesIdAddress[0] = address(this);
+    bytes32 requestId = requestEthereum.createRequestAsPayee.value(msg.value)(
       _payeesIdAddress,
       _payeesPaymentAddress,
       _expectedAmounts,
