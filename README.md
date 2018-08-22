@@ -12,5 +12,5 @@ ganache-cli -l 90000000 -p 8545 \
 
 truffle compile
 truffle migrate --reset
-truffle exec test/try.js
+truffle exec test/callCreateRequestAsPayee.js
 ```

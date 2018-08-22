@@ -9,6 +9,8 @@ contract InvoicingApp is AragonApp {
   RequestEthereum public requestEthereum;
   bytes32[] public requests;
 
+  event RequestCreated(bytes32 indexed requestId);
+
   function InvoicingApp(address _requestEthereum) public {
     requestEthereum = RequestEthereum(_requestEthereum);
   }
@@ -25,6 +27,7 @@ contract InvoicingApp is AragonApp {
 	{
 		address[] memory _payeesIdAddress = new address[](1);
     _payeesIdAddress[0] = address(this);
+    // msg.value is the fee for creating the request
     bytes32 requestId = requestEthereum.createRequestAsPayee.value(msg.value)(
       _payeesIdAddress,
       _payeesPaymentAddress,
@@ -33,8 +36,8 @@ contract InvoicingApp is AragonApp {
       _payerRefundAddress,
       _data
     );
+    emit RequestCreated(requestId);
     requests.push(requestId);
-    return requestId;
 	}
 
   function collectEstimation(int256 _expectedAmount)
