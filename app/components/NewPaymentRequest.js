@@ -31,7 +31,8 @@ export default class NewPaymentRequest extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('create a new payment request!')
+    console.log('create a new payment request!');
+    this.props.app.dummyCreateRequestAsPayee();
   }
 
   handlePayerUpdate = event => {

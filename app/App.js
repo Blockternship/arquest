@@ -36,8 +36,8 @@ export default class App extends React.Component {
             </Button>
           }
         />
-        {/* <ObservedPayments observable={this.props.observable} /> */}
-        <Invoices />
+        <ObservedPayments observable={this.props.observable} />
+        {/* <Invoices /> */}
         <SidePanel
           title="New Payment Request"
           opened={this.state.newPaymentRequestOpened}
@@ -49,7 +49,11 @@ export default class App extends React.Component {
   }
 }
 
-// const ObservedPayments = observe(
-//   (state$) => state$,
-//   { rows: [{id: 'id1', payer: 'payer'}] }
-// )(InvoiceRow)
+const ObservedPayments = observe(
+  (state$) => state$,
+  { rows: [{
+    id: '123',
+    payer: '0xb8d851486d1c953e31a44374aca11151d49b8bb3',
+    status: 'Pending',
+    amount: '0.45 ETH'}] }
+)(Invoices)
