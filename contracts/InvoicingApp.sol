@@ -32,7 +32,7 @@ contract InvoicingApp is AragonApp {
 
   function initialize() external onlyInit {
     initialized();
-    requestEthereumAddress = 0x497d9c622bc27efd06d2632021fdc3cc5038e420;
+    requestEthereumAddress = 0x082f8785d466eb39ee2779b582523ea532258332;
     requestEthereum = RequestEthereum(requestEthereumAddress);
   }
 
@@ -47,7 +47,7 @@ contract InvoicingApp is AragonApp {
 		address[] memory _payeesIdAddress = new address[](1);
     _payeesIdAddress[0] = address(this);
     // msg.value is the fee for creating the request
-    bytes32 requestId = requestEthereum.createRequestAsPayee.value(msg.value)(
+    requestId = requestEthereum.createRequestAsPayee.value(msg.value)(
       _payeesIdAddress,
       _payeesPaymentAddress, // make this the finance app address
       _expectedAmounts,
@@ -55,7 +55,7 @@ contract InvoicingApp is AragonApp {
       _payer, // _payerRefundAddress,
       _data
     );
-    requestId = keccak256(counter++);
+    // requestId = keccak256(counter++);
     // requestId = bytes32(counter++);
     // PaymentRequest memory paymentRequest = PaymentRequest(
     //   _payer, _expectedAmounts[0], Status.Pending, _data);

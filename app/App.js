@@ -8,7 +8,11 @@ import {
 } from '@aragon/ui'
 import Invoices from './components/Invoices';
 import NewPaymentRequest from './components/NewPaymentRequest';
-
+// const AppContainer = styled(AragonApp)`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// `
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -27,7 +31,7 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <AragonApp className="app">
+      <AragonApp className="app" publicUrl={'/'}>
         <AppBar
           title="Invoices"
           endContent={
