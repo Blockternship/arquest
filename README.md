@@ -12,7 +12,7 @@ ganache-cli --db node_modules/@aragon/aragen/aragon-ganache -m "explain tackle m
 
 (deploy request network smart contracts)
 truffle compile
-truffle migrate
+truffle migrate --reset
 
 npm run start
 ```

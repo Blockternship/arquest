@@ -23,7 +23,7 @@ module.exports = async function(deployer) {
     await setupContracts(instances);
     await checks(instances);
     console.log('Request network contracts deployed, checks complete');
-    return deployer.deploy(InvoicingApp, RequestEthereum.address);
+    return deployer.deploy(InvoicingApp);
   })
 };
 

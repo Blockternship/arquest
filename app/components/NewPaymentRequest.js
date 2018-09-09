@@ -10,6 +10,7 @@ import {
   TextInput,
   theme,
 } from '@aragon/ui'
+import InvoicingApp from '../InvoicingApp';
 
 const addressPattern = '(0x)?[0-9a-fA-F]{40}';
 const initialState = {
@@ -29,10 +30,13 @@ export default class NewPaymentRequest extends React.Component {
     ...initialState,
   }
 
-  handleSubmit = event => {
+  async handleSubmit(event) {
     event.preventDefault();
-    console.log('create a new payment request!');
-    this.props.app.dummyCreateRequestAsPayee();
+    console.log('create a new payment request!', this.state.amount);
+    // this.props.app.call('collectEstimation', web3.toWei(this.state.amount, 'ether')).subscribe(r => console.log('fee', r))
+    const fee = await InvoicingApp.collectEstimation(this.state.amount);
+    console.log('fee', fee);
+    // this.props.app.dummyCreateRequestAsPayee();
   }
 
   handlePayerUpdate = event => {
@@ -57,7 +61,7 @@ export default class NewPaymentRequest extends React.Component {
     const { amount, payer, selectedToken } = this.state;
     const symbols = tokens.map(({ symbol }) => symbol);
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={(e) => this.handleSubmit(e)}>
         {/* <h1>{title}</h1> */}
         <Field label="Payer (must be a valid Ethereum address)">
           <TextInput
