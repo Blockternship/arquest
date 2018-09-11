@@ -14,7 +14,9 @@ ganache-cli --db node_modules/@aragon/aragen/aragon-ganache -m "explain tackle m
 truffle compile
 truffle migrate --reset
 
-npm run start
+-- hardcode the RequestEthereum contract address in InvoicingApp.sol :p
+npm run start:app
+npm run start:aragon:http
 ```
 
 ### Test

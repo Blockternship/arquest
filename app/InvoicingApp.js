@@ -13,6 +13,16 @@ class InvoicingApp {
         .subscribe(resolve, reject)
     })
   }
+
+  async createRequestAsPayee(amount, payer, data) {
+    const fee = await this.collectEstimation(amount);
+    console.log('fee', fee);
+    this.app.createRequestAsPayee([amount], payer, data || '', {value: fee})
+    // return new Promise((resolve, reject) => {
+    //   this.app.createRequestAsPayee([amount], payer, data || '', {value: fee})
+    //     .subscribe(resolve, reject)
+    // })
+  }
 }
 
 export default new InvoicingApp();

@@ -34,9 +34,8 @@ export default class NewPaymentRequest extends React.Component {
     event.preventDefault();
     console.log('create a new payment request!', this.state.amount);
     // this.props.app.call('collectEstimation', web3.toWei(this.state.amount, 'ether')).subscribe(r => console.log('fee', r))
-    const fee = await InvoicingApp.collectEstimation(this.state.amount);
-    console.log('fee', fee);
-    // this.props.app.dummyCreateRequestAsPayee();
+    const tx = await InvoicingApp.createRequestAsPayee(this.state.amount, this.state.payer.value);
+    console.log('tx', tx);
   }
 
   handlePayerUpdate = event => {
