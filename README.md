@@ -4,6 +4,7 @@ Create smart invoices for your Decentralized Autonomous Organization (DAO). Buil
 
 1. [Proposal](https://github.com/Blockternship/projects/issues/11)
 2. [PoC Demo Video](https://www.youtube.com/watch?v=E0p5Bjhkb30&feature=youtu.be)
+3. [Project updates](https://docs.google.com/document/d/1QoL9Q5Fu-3Qqg6huvk5ySPkHUZLmnqKoZxwPe49pLis/edit?usp=sharing)
 
 ### Development
 ```shell
