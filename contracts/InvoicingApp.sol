@@ -32,14 +32,18 @@ contract InvoicingApp is AragonApp {
 
   function initialize() external onlyInit {
     initialized();
-    requestEthereum = RequestEthereum(0x4ee819385f6426af33fb10365c9b06d8c42d4684);
-    requestCore = RequestCore(0x0dc2584acd49d9552109e31ecf05e81d956bdd59);
+    requestEthereum = RequestEthereum(0x093d3c551bc022bb1a311bf5d9dab02b4e575472);
+    requestCore = RequestCore(0x609d79ad1935bb9aece827b8ec111e87122928a7);
   }
 
   function setRequestEthereumAddress(address _requestEthereum, address _requestCore) { // onlyDaoOwner?
     requestEthereum = RequestEthereum(_requestEthereum);
     requestCore = RequestCore(_requestCore);
   }
+
+  // function() external payable {
+  //   // emit PaymentReceived(msg.sender, msg.value); 
+  // }
 
   function createRequestAsPayee(
 		int256[] 	_expectedAmounts,
@@ -50,10 +54,12 @@ contract InvoicingApp is AragonApp {
 	{
 		address[] memory _payeesIdAddress = new address[](1);
     _payeesIdAddress[0] = address(this);
+		address[] memory _payeesPaymentAddress = new address[](1);
+    _payeesPaymentAddress[0] = msg.sender;
     // msg.value is the fee for creating the request
     requestId = requestEthereum.createRequestAsPayee.value(msg.value)(
       _payeesIdAddress,
-      _payeesIdAddress, // _payeesPaymentAddress - make this the finance app address
+      _payeesPaymentAddress, // _payeesPaymentAddress - make this the finance app address
       _expectedAmounts,
       _payer,
       _payer, // _payerRefundAddress,
