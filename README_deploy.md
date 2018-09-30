@@ -1,6 +1,62 @@
 # Deploying an Aragon App
+## A. Deploying from kit
+#### development
+1. Publish app
+```shell
+(Serve app)
+npm run start:app
+aragon apm publish InvoicingApp --http localhost:8001 --http-served-from ./dist
+```
 
-## development
+2. Publish kit
+```shell
+cd kit
+npm i
+
+(check compilation)
+truffle compile
+
+(bump version)
+aragon apm version major
+
+npm run publish:kit
+```
+
+3. Spin up DAO
+**Edit** `./node_modules/@aragon/cli/dist/commands/dao_cmds/new.js`
+to replace `abi = ctx.repo.abi || BARE_KIT_ABI` with the kit abi. (Todo: Work on enhancement and send PR)
+```shell
+./node_modules/@aragon/cli/dist/cli.js dao new arquest-kit-dev --fn "newInstance" --fn-args <requestCoreContractAddress> <requestEthereumContractAddress>
+./node_modules/@aragon/cli/dist/cli.js dao new arquest-kit-dev --fn "newInstance" --fn-args "0xbcfddf0fb6a918cb1e5040b9f0f529cbb930e23a" "0x97d0cab15baac862aa32679562e02200d2abe0fa"
+```
+
+4. Start webserver
+```shell
+aragon run --app-init-args 0xbcfddf0fb6a918cb1e5040b9f0f529cbb930e23a 0x97d0cab15baac862aa32679562e02200d2abe0fa --http localhost:8001 --http-served-from ./dist
+```
+
+5. Replace with DAO address created in 3.
+
+#### rinkeby
+```shell
+aragon apm publish InvoicingApp --network rinkeby --apm.ens-registry "0xfbae32d1cde62858bc45f51efc8cc4fa1415447e" --http localhost:8001 --http-served-from ./dist
+Publish arquest-dev-2.open.aragonpm.eth [completed]
+
+cd kit
+aragon apm version major
+✔ New version: 3.0.0
+truffle exec scripts/deploy.js --network rinkeby
+0xa7ee7a38c0f8af8511b45629a9827f76dc4b2674
+
+aragon apm publish 0xa7ee7a38c0f8af8511b45629a9827f76dc4b2674 --network rinkeby --apm.ens-registry "0xfbae32d1cde62858bc45f51efc8cc4fa1415447e"
+✔ Publish arquest-kit-dev-2.open.aragonpm.eth
+
+cd ..
+./node_modules/@aragon/cli/dist/cli.js dao new arquest-kit-dev-2.open.aragonpm.eth --fn "newInstance" --fn-args "0x8fc2e7f2498f1d06461ee2d547002611b801202b" "0xd88ab9b1691340e04a5bbf78529c11d592d35f57" --network rinkeby --apm.ens-registry "0xfbae32d1cde62858bc45f51efc8cc4fa1415447e"
+```
+
+## B. Install app to existing DAO
+#### development
 ```
 npm run ganache
 ipfs daemon
@@ -85,6 +141,6 @@ $ aragon apm publish InvoicingApp --network rinkeby --apm.ens-registry "0xfbae32
 I understand serving from `localhost:8001` doesn't make sense. Just wanted a faster publish.
 
 Fails with `Error: Transaction would not succeed ("Returned values aren't valid, did it run Out of Gas?")` See [apm.js](https://github.com/aragon/apm.js/blob/1bd8eaad5a3f2cf7ac2585e6800120993a2c8618/src/index.js#L298)
-See [output_out_of_gas](./output_out_of_gas)
+See [output_out_of_gas](./notes/output_out_of_gas)
 
-[This](https://github.com/ethereum/web3.js/issues/1916) issue suggested that it could be a problem with recent `beta` versions of `web3` so I downgraded to `web3@1.0.0-beta.10` and ran into `please check your gas limit`. See [output_check_gas_limit](./output_check_gas_limit) 
+[This](https://github.com/ethereum/web3.js/issues/1916) issue suggested that it could be a problem with recent `beta` versions of `web3` so I downgraded to `web3@1.0.0-beta.10` and ran into `please check your gas limit`. See [output_check_gas_limit](./notes/output_check_gas_limit)
